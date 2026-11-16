@@ -26,10 +26,17 @@ jobs:
         with:
           packages: 'platforms;android-29 platforms;android-33 build-tools;33.0.0 ndk;25.2.9519653'
 
-      - name: Configure Environment
+      - name: Fix NDK symlinks for cargo-quad-apk
+        run: |
+          BIN_DIR="$ANDROID_HOME/ndk/25.2.9519653/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          cd "$BIN_DIR"
+          ln -sf llvm-ar arm-linux-androideabi-ar
+          ln -sf llvm-ar armv7-linux-androideabi-ar
+          ln -sf llvm-ar aarch64-linux-android-ar
+
+      - name: Set NDK_HOME
         run: |
           echo "NDK_HOME=$ANDROID_HOME/ndk/25.2.9519653" >> $GITHUB_ENV
-          echo "$ANDROID_HOME/ndk/25.2.9519653/toolchains/llvm/prebuilt/linux-x86_64/bin" >> $GITHUB_PATH
 
       - name: Install cargo-quad-apk
         run: cargo install cargo-quad-apk
