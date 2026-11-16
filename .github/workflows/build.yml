@@ -21,10 +21,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
+      - name: Setup Android SDK & NDK
         uses: android-actions/setup-android@v3
         with:
-          ndk-version: 25.2.9519653
+          packages: 'platforms;android-33 build-tools;33.0.0 ndk;25.2.9519653'
+
+      - name: Set NDK_HOME
+        run: |
+          echo "NDK_HOME=$ANDROID_HOME/ndk/25.2.9519653" >> $GITHUB_ENV
 
       - name: Install cargo-quad-apk
         run: cargo install cargo-quad-apk
