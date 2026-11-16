@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       
@@ -20,6 +20,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+
+      - name: Install Python dependencies
+        run: sudo apt-get update && sudo apt-get install -y python3-distutils
 
       - name: Install cargo-quad-apk
         run: cargo install cargo-quad-apk
